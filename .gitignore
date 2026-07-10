@@ -1,0 +1,21 @@
+# OCR outputs
+chunks/
+pages/
+*-ocr/
+*_ocr.md
+*-stitched.md
+stitched.md
+progress.json
+
+# Secrets
+.env
+.env.*
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# OS
+.DS_Store
