@@ -1,13 +1,11 @@
 # vlm-book-ocr
 
-Jon — this is the OCR approach I mentioned, packaged so you can drop it in next to (or in place of) the Tesseract extraction page. It uses a vision-language model (Gemini or Claude) to read scanned pages instead of a classical OCR engine.
+OCR for old books and letterpress magazines using a vision-language model (Gemini or Claude) instead of a classical OCR engine, plus a deterministic stitcher that joins per-page output into one flowing manuscript.
 
-Two reasons this beats Tesseract on the material IHS works with:
+Two reasons a VLM beats Tesseract on this class of material:
 
-1. **It reads display type and bad scans Tesseract can't.** Real example: on a 1945 *Cross & Plough* masthead, Tesseract 5.5.2 rendered "OUR DAILY BREAD" as `@OR DANY @884b`. The VLM reads it correctly. Old letterpress, decorative faces, foxed paper, two-column layouts — all fine.
-2. **It outputs structured markdown directly** — headings, paragraphs, footnotes, italics — so the tagging stage happens inside OCR instead of as a second pass over raw text.
-
-If you want to test this on any PDFs you have, feel free.
+1. **It reads display type and bad scans Tesseract can't.** Real example: on a 1945 letterpress magazine masthead, Tesseract 5.5.2 rendered "OUR DAILY BREAD" as `@OR DANY @884b`. A VLM reads it correctly — old letterpress, decorative faces, foxed paper, two-column layouts all included.
+2. **It outputs structured markdown directly** — headings, paragraphs, footnotes, italics — so document structure comes out of the OCR step instead of being reconstructed in a second pass over raw text.
 
 ## Two ways to run it
 
@@ -59,6 +57,8 @@ Roughly 1.3K tokens per page in, 500 out:
 | Sonnet 5 (API) | ~$0.01 | ~$3–4 |
 | Claude Code (subscription) | ~$0 marginal | ~$0 marginal |
 
+**Model choice (tested on a 1906 book):** Sonnet is the workhorse — on clean body text Haiku matched it word-for-word, but Haiku mis-transcribed broken type and silently added a French accent that isn't in the print. If per-token cost matters, Haiku is viable for clean scans with a stronger model adjudicating flagged pages; otherwise use Sonnet.
+
 ## Layout
 
 ```
@@ -70,6 +70,4 @@ claude-code/
   README.md            the same pipeline via Claude Code subagents
 ```
 
-MIT licensed. Questions — email me.
-
-— Charlie
+MIT licensed.
